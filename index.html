@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Task</title>
+    <meta
+      name="description"
+      content="แอปจัดการงานประจำวันแบบน่ารักและเรียบหรูด้วยการออกแบบที่ได้รับแรงบันดาลใจจากเบเกอรี่"
+    />
+    <link rel="stylesheet" href="style.css?v=8" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="floating-element floating-one" aria-hidden="true">🌙</div>
+      <div class="floating-element floating-two" aria-hidden="true">✨</div>
+      <div class="floating-element floating-three" aria-hidden="true">🌟</div>
+
+      <section id="authScreen" class="auth-screen hidden" aria-label="เข้าสู่ระบบ">
+        <div class="auth-card">
+          <p class="eyebrow">DAILY TASK</p>
+          <h1 id="authHeading">เข้าสู่ระบบ</h1>
+          <p id="authDescription">เข้าสู่ระบบเพื่อดูรายการงานของคุณ</p>
+
+          <form id="authForm" class="auth-form">
+            <label class="auth-field">
+              <span>อีเมล</span>
+              <input id="authEmail" type="email" autocomplete="email" required />
+            </label>
+            <label class="auth-field">
+              <span>รหัสผ่าน</span>
+              <input id="authPassword" type="password" autocomplete="current-password" minlength="6" required />
+            </label>
+            <p id="authError" class="auth-error" role="alert"></p>
+            <button id="authSubmitBtn" class="primary-btn auth-submit" type="submit">เข้าสู่ระบบ</button>
+          </form>
+
+          <div class="auth-links">
+            <button id="authModeToggle" class="text-button" type="button">ยังไม่มีบัญชี? สมัครสมาชิก</button>
+            <button id="resetPasswordBtn" class="text-button" type="button">ลืมรหัสผ่าน</button>
+            <button id="authSignOutBtn" class="text-button hidden" type="button">ออกจากระบบ</button>
+          </div>
+        </div>
+      </section>
+
+      <main class="app home-active">
+        <header class="hero app-header">
+          <div class="hero-inner">
+            <div class="brand-copy">
+              <p class="eyebrow">แผนงานประจำวัน</p>
+              <h1>DAILY TASK</h1>
+            </div>
+            <div class="moon-mark" aria-hidden="true">🌙</div>
+          </div>
+
+          <div class="header-tools">
+            <label class="font-picker" aria-label="เลือกฟอนต์">
+              <span aria-hidden="true">Aa</span>
+              <select id="appFontSelect" aria-label="เลือกฟอนต์">
+                <option value="palette">FC Palette</option>
+                <option value="candy">FC Candy</option>
+                <option value="system">ฟอนต์ระบบ</option>
+              </select>
+            </label>
+            <label class="text-size-picker" aria-label="ขนาดตัวอักษร">
+              <span aria-hidden="true">A</span>
+              <select id="appTextSizeSelect" aria-label="ขนาดตัวอักษร">
+                <option value="small">เล็ก</option>
+                <option value="medium">ปกติ</option>
+                <option value="large">ใหญ่</option>
+              </select>
+            </label>
+            <span id="accountEmail" class="account-email hidden"></span>
+            <button id="logoutBtn" class="logout-btn hidden" type="button">ออกจากระบบ</button>
+            <nav class="view-nav" aria-label="หน้าหลักของแอป">
+              <button class="view-tab" data-view="home" type="button" aria-pressed="false">
+                หน้าแรก
+              </button>
+              <button class="view-tab active" data-view="tasks" type="button" aria-pressed="true">
+                รายการงาน
+              </button>
+              <button class="view-tab" data-view="summary" type="button" aria-pressed="false">
+                ภาพรวม
+              </button>
+            </nav>
+          </div>
+        </header>
+
+        <section id="homeView" class="page-view home-view is-active" aria-label="หน้าแรก" aria-hidden="false">
+          <div class="home-hero">
+            <p class="eyebrow">แผนงานประจำวัน</p>
+            <h1>DAILY TASK</h1>
+            <p id="dailyMessage" class="home-subtitle" aria-live="polite"></p>
+            <div class="home-moon" aria-hidden="true">🌙</div>
+          </div>
+
+          <section class="home-toolbar" aria-label="ค้นหาและกรองงาน">
+            <div class="filter-bar home-filter-bar" aria-label="ตัวกรองงานหน้าแรก">
+              <button class="filter-tab active" data-filter="all" type="button">ทั้งหมด</button>
+              <button class="filter-tab" data-filter="in-progress" type="button">กำลังทำ</button>
+              <button class="filter-tab" data-filter="completed" type="button">เสร็จแล้ว</button>
+            </div>
+
+            <div class="home-toolbar-right">
+              <label class="search-wrap" aria-label="ค้นหางานหน้าแรก">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input id="homeSearchInput" type="search" placeholder="ค้นหางาน..." aria-label="ค้นหางาน" />
+              </label>
+              <label class="sort-wrap" aria-label="เรียงลำดับงานหน้าแรก">
+                <span>เรียง</span>
+                <select id="homeSortSelect" aria-label="เลือกวิธีเรียงลำดับงาน">
+                  <option value="newest">ใหม่สุด</option>
+                  <option value="oldest">เก่าสุด</option>
+                  <option value="due-date">วันครบกำหนด</option>
+                  <option value="priority">ความสำคัญ</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="home-preview" aria-label="งานล่าสุด">
+            <header class="home-preview-heading">
+              <div>
+                <p class="eyebrow">รายการประจำวัน</p>
+                <h2>งานล่าสุด</h2>
+              </div>
+              <button class="home-open-list" data-view="tasks" type="button">ดูรายการทั้งหมด →</button>
+            </header>
+            <div id="homeTaskPreview" class="home-task-preview"></div>
+          </section>
+
+          <div class="home-footer">
+            <div class="home-stats" aria-live="polite">
+              <div class="home-stat">
+                <span>งานค้าง</span>
+                <strong id="homeRemainingCounter">0</strong>
+              </div>
+              <div class="home-stat">
+                <span>เสร็จแล้ว</span>
+                <strong id="homeCompletedCounter">0</strong>
+              </div>
+              <div class="home-stat">
+                <span>พระจันทร์</span>
+                <strong id="homeMoonCount">0</strong>
+              </div>
+            </div>
+            <div class="home-quick-actions">
+              <label class="font-picker" aria-label="เลือกฟอนต์หน้าแรก">
+                <span aria-hidden="true">Aa</span>
+                <select id="homeFontSelect" aria-label="เลือกฟอนต์">
+                  <option value="palette">FC Palette</option>
+                  <option value="candy">FC Candy</option>
+                  <option value="system">ฟอนต์ระบบ</option>
+                </select>
+              </label>
+              <label class="text-size-picker" aria-label="ขนาดตัวอักษรหน้าแรก">
+                <span aria-hidden="true">A</span>
+                <select id="homeTextSizeSelect" aria-label="ขนาดตัวอักษร">
+                  <option value="small">เล็ก</option>
+                  <option value="medium">ปกติ</option>
+                  <option value="large">ใหญ่</option>
+                </select>
+              </label>
+              <button id="homeLogoutBtn" class="logout-btn hidden" type="button">ออกจากระบบ</button>
+              <button id="homeAddTaskBtn" class="secondary-btn" type="button">+ เพิ่มงาน</button>
+              <button class="primary-btn home-enter-btn" data-view="tasks" type="button">เข้าสู่แอป <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section id="tasksView" class="page-view tasks-view is-active" aria-label="รายการงาน" aria-hidden="false">
+          <div class="tasks-toolbar">
+            <div class="task-controls">
+              <div class="filter-bar" aria-label="ตัวกรองงาน">
+                <button class="filter-tab active" data-filter="all" type="button">ทั้งหมด</button>
+                <button class="filter-tab" data-filter="in-progress" type="button">กำลังทำ</button>
+                <button class="filter-tab" data-filter="completed" type="button">เสร็จแล้ว</button>
+              </div>
+
+              <div class="toolbar-right">
+                <label class="search-wrap" aria-label="ค้นหางาน">
+                  <span class="search-icon" aria-hidden="true">⌕</span>
+                  <input id="searchInput" type="search" placeholder="ค้นหางาน..." aria-label="ค้นหางาน" />
+                </label>
+
+                <label class="sort-wrap" aria-label="เรียงลำดับงาน">
+                  <span>เรียง</span>
+                  <select id="sortSelect" aria-label="เลือกวิธีเรียงลำดับงาน">
+                    <option value="newest">ใหม่สุด</option>
+                    <option value="oldest">เก่าสุด</option>
+                    <option value="due-date">วันครบกำหนด</option>
+                    <option value="priority">ความสำคัญ</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="task-actions-row">
+              <span id="taskCounter" aria-live="polite">0 งานที่เหลือ</span>
+              <button id="addTaskBtn" class="primary-btn" type="button">+ เพิ่มงานใหม่</button>
+            </div>
+          </div>
+
+          <section id="taskGrid" class="task-grid" aria-live="polite"></section>
+
+          <nav id="paginationControls" class="pagination" aria-label="เปลี่ยนหน้ารายการงาน">
+            <button id="previousPage" class="page-button" type="button" disabled>← ก่อนหน้า</button>
+            <span id="pageIndicator" aria-live="polite">หน้า 1 / 1</span>
+            <button id="nextPage" class="page-button" type="button" disabled>ถัดไป →</button>
+          </nav>
+        </section>
+
+        <section id="summaryView" class="page-view summary-view" aria-label="ภาพรวมงาน" aria-hidden="true">
+          <header class="view-heading">
+            <div>
+              <p class="eyebrow">ภาพรวมการใช้งาน</p>
+              <h2>สรุปงาน</h2>
+            </div>
+            <button class="secondary-btn" data-view="tasks" type="button">กลับไปดูรายการ</button>
+          </header>
+
+          <div class="summary-grid" aria-live="polite">
+            <article class="stat-card">
+              <span>งานทั้งหมด</span>
+              <strong id="totalCounter">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>งานที่เหลือ</span>
+              <strong id="remainingCounter">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>เสร็จแล้ว</span>
+              <strong id="completedCounter">0</strong>
+            </article>
+            <article class="stat-card reward-stat">
+              <span>🌙 พระจันทร์ที่ได้รับ</span>
+              <strong id="moonCount">0</strong>
+            </article>
+          </div>
+
+          <div id="celebrationBanner" class="celebration-banner hidden" aria-live="polite">
+            เมื่อทำงานเสร็จแล้ว จะมีพระจันทร์พร่างพรายตกลงมา 🌙
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" aria-live="assertive"></div>
+
+    <div id="taskModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <h2 id="modalTitle">เพิ่มงานใหม่</h2>
+          <button class="icon-close" type="button" data-close-modal="true" aria-label="ปิดฟอร์มงาน">
+            ×
+          </button>
+        </div>
+
+        <form id="taskForm">
+          <div class="form-grid">
+            <label class="field">
+              <span>ชื่องาน</span>
+              <input id="taskTitle" name="title" type="text" required />
+            </label>
+
+            <label class="field">
+              <span>หมวดหมู่</span>
+              <input id="taskCategory" name="category" type="text" placeholder="เช่น ทำขนม" />
+            </label>
+
+            <label class="field full-width">
+              <span>รายละเอียด</span>
+              <textarea id="taskDescription" name="description" rows="3" placeholder="เพิ่มบรรยายสั้น ๆ ..."></textarea>
+            </label>
+
+            <label class="field">
+              <span>ความสำคัญ</span>
+              <select id="taskPriority" name="priority">
+                <option value="low">ต่ำ</option>
+                <option value="medium" selected>ปานกลาง</option>
+                <option value="high">สูง</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>วันครบกำหนด</span>
+              <input id="taskDueDate" name="dueDate" type="date" />
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="secondary-btn" data-close-modal="true">ยกเลิก</button>
+            <button id="submitTaskBtn" type="submit" class="primary-btn submit-btn">เพิ่มงาน</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="rainContainer" class="rain-container" aria-hidden="true"></div>
+
+    <script>
+      window.DAILY_TASK_FIREBASE_CONFIG = null;
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="script.js?v=11"></script>
+  </body>
+</html>
